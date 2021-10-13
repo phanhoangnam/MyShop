@@ -15,5 +15,6 @@ namespace MyShop.Data.Entities
         public int Rating { get; set; }
 
         public virtual Product Product { get; set; }
+        public virtual AppUser AppUser { get; set; }
     }
 }

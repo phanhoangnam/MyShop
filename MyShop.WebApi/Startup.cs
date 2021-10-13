@@ -1,22 +1,19 @@
-using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyShop.Data.EF;
+using MyShop.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using IdentityServer4.Configuration;
-using IdentityServer4.Test;
-using IdentityServer4.Models;
-using MyShop.Data.EF;
 
-namespace MyShop.WebApp
+namespace MyShop.WebApi
 {
     public class Startup
     {
@@ -30,6 +27,13 @@ namespace MyShop.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<MyShopDBContext>(options =>
+            options.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=MyShop;Integrated Security=True"));
+
+            
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<MyShopDBContext>()
+                .AddDefaultTokenProviders();
             services.AddControllersWithViews();
         }
 
@@ -50,8 +54,7 @@ namespace MyShop.WebApp
             app.UseStaticFiles();
 
             app.UseRouting();
-            
-            
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -61,7 +64,5 @@ namespace MyShop.WebApp
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-       
     }
 }

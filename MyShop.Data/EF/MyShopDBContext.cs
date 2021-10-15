@@ -12,9 +12,13 @@ namespace MyShop.Data.EF
 {
     public class MyShopDBContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
+        public MyShopDBContext(DbContextOptions options) : base(options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=MyShop;Integrated Security=True");
+            //optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=MyShop;Integrated Security=True");
                 //.UseLazyLoadingProxies()
                 //.LogTo(Console.WriteLine, new[] {
                 //    DbLoggerCategory.Model.Name,

@@ -18,7 +18,7 @@ namespace MyShop.Data.EF
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connectionString = configuration.GetConnectionString("eShopSolutionDb");
+            var connectionString = configuration.GetConnectionString("MyShopDb");
             var optionsBuilder = new DbContextOptionsBuilder<MyShopDBContext>();
             optionsBuilder.UseSqlServer(connectionString);
 

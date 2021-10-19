@@ -15,6 +15,7 @@ namespace MyShop.Data.Entities
         public decimal OriginalPrice { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public int CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual List<ProductImage> ProductImages { get; set; }

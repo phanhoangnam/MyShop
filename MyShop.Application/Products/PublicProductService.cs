@@ -4,12 +4,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using MyShop.Application.Products;
 using MyShop.Data.EF;
 using MyShop.ViewModels.Common;
 using MyShop.ViewModels.Products;
 
-namespace eShopSolution.Application.Catalog.Products
+namespace MyShop.Application.Products
 {
     public class PublicProductService : IPublicProductService
     {
@@ -57,7 +56,7 @@ namespace eShopSolution.Application.Catalog.Products
                         select new { p };
 
             // 2. Filter
-            
+
             if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
             {
                 query = query.Where(x => x.p.CategoryId == request.CategoryId);

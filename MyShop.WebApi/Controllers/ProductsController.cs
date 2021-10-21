@@ -26,7 +26,7 @@ namespace MyShop.WebApi.Controllers
         }
 
         // http://localhost:port/products?pageIndex=1&pageSize=10&CategoryId=
-        [HttpGet("{languageId}")]
+        [HttpGet]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetPublicProductPagingRequest request)
         {
             var products = await _publicProductService.GetAllByCategoryId(request);
@@ -35,7 +35,7 @@ namespace MyShop.WebApi.Controllers
 
 
         // http://localhost:port/product/productId
-        [HttpGet("{productId}/{languageId}")]
+        [HttpGet("{productId}")]
         public async Task<IActionResult> GetById(int productId)
         {
             var product = await _manageProductService.GetById(productId);

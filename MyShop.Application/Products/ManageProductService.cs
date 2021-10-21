@@ -32,8 +32,8 @@ namespace MyShop.Application.Products
             var productImage = new ProductImage()
             {
                 Caption = request.Caption,
-                DateCreated = DateTime.Now,
-                isDefault = request.isDefault,
+                CreatedDate = DateTime.Now,
+                IsDefault = request.isDefault,
                 ProductId = productId,
             };
 
@@ -54,6 +54,7 @@ namespace MyShop.Application.Products
             {
                 Name = request.Name,
                 Description = request.Description,
+                Configuration = request.Configuration,
                 Price = request.Price,
                 OriginalPrice = request.OriginalPrice,
                 CategoryId = request.CategoryId,
@@ -69,9 +70,9 @@ namespace MyShop.Application.Products
                     new ProductImage()
                     {
                         Caption = "Thumbnail image",
-                        DateCreated = DateTime.Now,
+                        CreatedDate = DateTime.Now,
                         ImagePath = await this.SaveFile(request.ThumbnailImage),
-                        isDefault = true
+                        IsDefault = true
                     }
                 };
             }
@@ -128,6 +129,7 @@ namespace MyShop.Application.Products
                     CreatedDate = x.p.CreatedDate,
                     UpdatedDate = x.p.UpdatedDate,
                     Description = x.p.Description,
+                    Configuration = x.p.Configuration,
                     OriginalPrice = x.p.OriginalPrice,
                     Price = x.p.Price,
                 }).ToListAsync();
@@ -152,6 +154,7 @@ namespace MyShop.Application.Products
                 CreatedDate = product.CreatedDate,
                 UpdatedDate = product.UpdatedDate,
                 Description = product.Description,
+                Configuration = product.Configuration,
                 Name = product.Name,
                 OriginalPrice = product.OriginalPrice,
                 Price = product.Price,
@@ -171,9 +174,9 @@ namespace MyShop.Application.Products
             {
                 Id = image.Id,
                 Caption = image.Caption,
-                DateCreated = image.DateCreated,
+                CreatedDate = image.CreatedDate,
                 ImagePath = image.ImagePath,
-                isDefault = image.isDefault,
+                IsDefault = image.IsDefault,
                 ProductId = image.ProductId,
             };
             return viewModel;
@@ -186,9 +189,9 @@ namespace MyShop.Application.Products
                 {
                     Id = i.Id,
                     Caption = i.Caption,
-                    DateCreated = i.DateCreated,
+                    CreatedDate = i.CreatedDate,
                     ImagePath = i.ImagePath,
-                    isDefault = i.isDefault,
+                    IsDefault = i.IsDefault,
                     ProductId = i.ProductId,
                 }).ToListAsync();
         }
@@ -214,11 +217,12 @@ namespace MyShop.Application.Products
 
             product.Name = request.Name;
             product.Description = request.Description;
+            product.Configuration = request.Configuration;
 
             // Save image
             if (request.ThumbnailImage != null)
             {
-                var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.isDefault == true && i.ProductId == request.Id);
+                var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);
                 if (thumbnailImage != null)
                 {
                     thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);

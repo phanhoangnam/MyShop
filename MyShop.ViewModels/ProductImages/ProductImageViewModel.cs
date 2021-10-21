@@ -11,7 +11,7 @@ namespace MyShop.ViewModels.ProductImages
         public int ProductId { get; set; }
         public string ImagePath { get; set; }
         public string Caption { get; set; }
-        public bool isDefault { get; set; }
-        public DateTime DateCreated { get; set; }
+        public bool IsDefault { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

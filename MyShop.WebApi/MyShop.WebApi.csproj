@@ -24,4 +24,8 @@
     <ProjectReference Include="..\MyShop.Data\MyShop.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\user-content\" />
+  </ItemGroup>
+
 </Project>

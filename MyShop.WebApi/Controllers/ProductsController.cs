@@ -41,7 +41,7 @@ namespace MyShop.WebApi.Controllers
             var product = await _manageProductService.GetById(productId);
             if (product == null)
             {
-                return BadRequest("Cannot find product");
+                return NotFound("Cannot find product");
             }
             return Ok(product);
         }
@@ -63,7 +63,7 @@ namespace MyShop.WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] ProductUpdateRequest request)
+        public async Task<IActionResult> Update([FromForm] ProductUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -154,7 +154,7 @@ namespace MyShop.WebApi.Controllers
             var image = await _manageProductService.GetImageById(imageId);
             if (image == null)
             {
-                return BadRequest("Cannot find product");
+                return NotFound("Cannot find product");
             }
             return Ok(image);
         }

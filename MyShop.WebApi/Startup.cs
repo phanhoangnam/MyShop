@@ -18,6 +18,7 @@ using MyShop.WebApi.Services;
 using Microsoft.OpenApi.Models;
 using MyShop.Application.Common;
 using MyShop.Application.Products;
+using MyShop.Application.Categories;
 
 namespace MyShop.WebApi
 {
@@ -59,6 +60,7 @@ namespace MyShop.WebApi
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
+            services.AddTransient<IManageCategoryService, ManageCategoryService>();
             services.AddTransient<IEmailSender, EmailSenderService>();
 
             services.AddRazorPages(options =>

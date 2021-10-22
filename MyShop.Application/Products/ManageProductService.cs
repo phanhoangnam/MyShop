@@ -33,7 +33,7 @@ namespace MyShop.Application.Products
             {
                 Caption = request.Caption,
                 CreatedDate = DateTime.Now,
-                IsDefault = request.isDefault,
+                IsDefault = request.IsDefault,
                 ProductId = productId,
             };
 

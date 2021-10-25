@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyShop.Data.Entities;
+using MyShop.Data.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,20 +20,23 @@ namespace MyShop.Data.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=MyShop;Integrated Security=True");
-                //.UseLazyLoadingProxies()
-                //.LogTo(Console.WriteLine, new[] {
-                //    DbLoggerCategory.Model.Name,
-                //    DbLoggerCategory.Database.Command.Name,
-                //    DbLoggerCategory.Database.Transaction.Name,
-                //    DbLoggerCategory.Query.Name,
-                //    DbLoggerCategory.ChangeTracking.Name,
-                //},
-                //       LogLevel.Information)
-                //.EnableSensitiveDataLogging();
+            //    .UseLazyLoadingProxies()
+            //    .LogTo(Console.WriteLine, new[] {
+            //        DbLoggerCategory.Model.Name,
+            //        DbLoggerCategory.Database.Command.Name,
+            //        DbLoggerCategory.Database.Transaction.Name,
+            //        DbLoggerCategory.Query.Name,
+            //        DbLoggerCategory.ChangeTracking.Name,
+            //    },
+            //           LogLevel.Information)
+            //    .EnableSensitiveDataLogging();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Data seeding
+            modelBuilder.Seed();
 
             //modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             //modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -41,7 +45,7 @@ namespace MyShop.Data.EF
             //modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
 
-            
+
         }
 
 

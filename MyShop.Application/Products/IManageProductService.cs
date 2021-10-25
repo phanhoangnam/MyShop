@@ -1,4 +1,6 @@
-﻿using MyShop.ViewModels.Products;
+﻿using MyShop.ViewModels.Common;
+using MyShop.ViewModels.ProductImages;
+using MyShop.ViewModels.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +16,12 @@ namespace MyShop.Application.Products
         Task<int> Delete(int productId);
         Task<ProductViewModel> GetById(int productId);
         Task<bool> UpdatePrice(int productId, decimal newPrice);
+        Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
+
+        Task<int> AddImage(int productId, ProductImageCreateRequest request);
+        Task<ProductImageViewModel> GetImageById(int imageId);
+        Task<int> RemoveImage(int imageId);
+        Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
+        Task<List<ProductImageViewModel>> GetListImages(int productId);
     }
 }

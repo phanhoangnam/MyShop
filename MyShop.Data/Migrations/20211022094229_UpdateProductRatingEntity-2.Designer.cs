@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyShop.Data.EF;
 
 namespace MyShop.Data.Migrations
 {
     [DbContext(typeof(MyShopDBContext))]
-    partial class MyShopDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211022094229_UpdateProductRatingEntity-2")]
+    partial class UpdateProductRatingEntity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

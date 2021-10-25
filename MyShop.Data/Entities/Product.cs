@@ -11,10 +11,12 @@ namespace MyShop.Data.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Configuration { get; set; }
         public decimal Price { get; set; }
         public decimal OriginalPrice { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public int CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual List<ProductImage> ProductImages { get; set; }

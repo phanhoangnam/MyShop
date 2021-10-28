@@ -31,6 +31,7 @@
                     <form class="register-form outer-top-xs" role="form" asp-action="Login" asp-controller="Account" method="post">
                         @*<span>@Html.ValidationSummary(false, "", new { @class = "text-danger" })</span><br/>*@
                         <div asp-validation-summary="All" class="text-danger"></div><br />
+
                         <div class="form-group">
                             <label class="info-title">Tên đăng nhập <span>*</span></label>
                             <input type="text" asp-for="UserName" class="form-control unicase-form-control text-input">

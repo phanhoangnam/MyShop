@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyShop.Application.Users;
 using MyShop.Data.EF;
 using MyShop.Data.Entities;
+using MyShop.ViewModels.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +17,43 @@ namespace MyShop.WebApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<AppRole> _roleManager;
-        private readonly MyShopDBContext _context;
+        private readonly IUserService _userService;
 
-        public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, MyShopDBContext context)
+        public UsersController(IUserService userService)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _context = context;
+            _userService = userService;
         }
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.Login(request);
+
+            if (string.IsNullOrEmpty(result.ResultObj))
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.Register(request);
+            if (!result)
+            {
+                return BadRequest("Register is unsuccessful.");
+            }
+            return Ok();
+        }
+
     }
 }

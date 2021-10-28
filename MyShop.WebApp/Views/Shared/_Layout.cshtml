@@ -1,48 +1,423 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MyShop.WebApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="MediaCenter, Template, eCommerce">
+    <meta name="robots" content="all">
+    <title>KingdomLaptop</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="~/Assets/client/css/bootstrap.min.css">
+    <link href="~/Assets/client/css/bootstrap.css" rel="stylesheet" />
+    <!-- Customizable CSS -->
+    <link rel="stylesheet" href="~/Assets/client/css/main.css">
+    <link rel="stylesheet" href="~/Assets/client/css/blue.css">
+    <link rel="stylesheet" href="~/Assets/client/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/Assets/client/css/owl.transitions.css">
+    <link rel="stylesheet" href="~/Assets/client/css/animate.min.css">
+    <link rel="stylesheet" href="~/Assets/client/css/rateit.css">
+    <link rel="stylesheet" href="~/Assets/client/css/bootstrap-select.min.css">
+    <link href="~/Assets/client/css/jquery-ui.css" rel="stylesheet" />
+
+    <!-- Icons/Glyphs -->
+    <link rel="stylesheet" href="~/Assets/client/css/font-awesome.css">
+    <link href="~/Assets/client/css/star.css" rel="stylesheet" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Barlow:200,300,300i,400,400i,500,500i,600,700,800" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,600italic,700,700italic,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+<body class="cnt-home">
+    <!-- ============================================== HEADER ============================================== -->
+    <header class="header-style-1">
+
+        <!-- ============================================== TOP MENU ============================================== -->
+        <div class="top-bar animate-dropdown">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyShop.WebApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="header-top-inner">
+                    <div class="cnt-account">
+                        @if (User.Identity.Name == null)
+                        {
+                            <ul class="list-unstyled">
+                                @*<li class="wishlist"><a href="#"><span>Yêu thích</span></a></li>*@
+                                <li class="login"><a href="/Account/Login"><span>Đăng nhập</span></a></li>
+                                <li class="login"><a href="/Account/Register"><span>Đăng ký</span></a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="list-unstyled">
+                                <li class="myaccount"><a href="/thong-tin-ca-nhan"><span>Xin chào : @User.Identity.Name</span></a></li>
+                                @*<li class="wishlist"><a href="/doi-mat-khau"><span>Đổi mật khẩu</span></a></li>*@
+                                @*<li class="wishlist"><a href="/san-pham-yeu-thich"><span>Yêu thích</span></a></li>*@
+                                <li class="logout">
+                                    <form method="post" asp-controller="Account" asp-action="Logout">
+                                        <button style="background-color: transparent; border: none; color: #f2f3f7" class="logout" type="submit">Đăng xuất</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /.header-top-inner -->
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /.header-top -->
+        <!-- ============================================== TOP MENU : END ============================================== -->
+        <div class="main-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 logo-holder">
+                        <!-- ============================================================= LOGO ============================================================= -->
+                        <div class="logo"> <a href="/trang-chu"> <img src="~/Assets/client/images/logo.PNG" alt="logo"> </a> </div>
+                        <!-- /.logo -->
+                        <!-- ============================================================= LOGO : END ============================================================= -->
+                    </div>
+                    <!-- /.logo-holder -->
+
+                    <div class="col-lg-7 col-md-6 col-sm-8 col-xs-12 top-search-holder">
+                        <!-- /.contact-row -->
+                        <!-- ============================================================= SEARCH AREA ============================================================= -->
+                        <div class="search-area">
+                            <form action="/tim-kiem" method="get">
+                                <div class="control-group">
+                                    <input class="search-field" type="text" id="txtKeyword" name="keyword" placeholder="Gõ từ khoá" />
+                                    <button class="search-button" type="submit" value=""></button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.search-area -->
+                        <!-- ============================================================= SEARCH AREA : END ============================================================= -->
+                    </div>
+                    <!-- /.top-search-holder -->
+
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 animate-dropdown top-cart-row">
+                        <!-- ============================================================= SHOPPING CART DROPDOWN ============================================================= -->
+
+                        <div class="dropdown dropdown-cart">
+                            <a href="/gio-hang" class="dropdown-toggle lnk-cart">
+                                <div class="items-cart-inner">
+                                    <div class="basket">
+                                        1000000
+                                        <div class="basket-item-count"><span class="count">1</span></div>
+                                        @*<div class="total-price-basket"> <span class="lbl">Tổng tiền</span> <span>1000000 VND</span> </div>*@
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- /.dropdown-cart -->
+                        <!-- ============================================================= SHOPPING CART DROPDOWN : END============================================================= -->
+                    </div>
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container -->
+
+        </div>
+        <!-- /.main-header -->
+        <!-- ============================================== NAVBAR ============================================== -->
+        <div class="header-nav animate-dropdown">
+            <div class="container">
+                <div class="yamm navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                            <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="nav-bg-class">
+                        <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
+                            <div class="nav-outer">
+                                <ul class="nav navbar-nav">
+                                    <li class="active dropdown"> <a href="/trang-chu">Trang chủ</a> </li>
+                                    <li class="dropdown yamm mega-menu">
+                                        <a href="#" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">Sản phẩm</a>
+                                        <ul class="dropdown-menu container">
+                                            <li>
+                                                <div class="yamm-content ">
+                                                    <div class="row">
+                                                        
+                                                        <!-- /.col -->
+                                                        <!-- /.yamm-content -->
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li> <a href="/thong-tin">Thông tin</a> </li>
+                                    <li> <a href="/lien-he">Liên hệ</a> </li>
+                                </ul>
+                                <!-- /.navbar-nav -->
+                                <div class="clearfix"></div>
+                            </div>
+                            <!-- /.nav-outer -->
+                        </div>
+                        <!-- /.navbar-collapse -->
+
+                    </div>
+                    <!-- /.nav-bg-class -->
+                </div>
+                <!-- /.navbar-default -->
+            </div>
+            <!-- /.container-class -->
+
+        </div>
+        <!-- /.header-nav -->
+        <!-- ============================================== NAVBAR : END ============================================== -->
+
+    </header>
+
+    <!-- ============================================== HEADER : END ============================================== -->
+    @RenderBody()
+
+    <!-- /#top-banner-and-menu -->
+    <!-- ============================================== INFO BOXES ============================================== -->
+    <div class="row our-features-box">
+        <div class="container">
+            <ul>
+                <li>
+                    <div class="feature-box">
+                        <div class="icon-truck"></div>
+                        <div class="content-blocks">Nhanh chóng, tin cậy</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="feature-box">
+                        <div class="icon-support"></div>
+                        <div class="content-blocks">
+                            call + 1900 10000
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="feature-box">
+                        <div class="icon-money"></div>
+                        <div class="content-blocks">Tiết kiệm</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="feature-box">
+                        <div class="icon-return"></div>
+                        <div class="content">Ưu đãi thường xuyên</div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- /.info-boxes -->
+    <!-- ============================================== INFO BOXES : END ============================================== -->
+    <!-- ============================================================= FOOTER ============================================================= -->
+    <footer id="footer" class="footer color-bg">
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="address-block">
+
+                            <!-- /.module-heading -->
+
+                            <div class="module-body">
+                                <ul class="toggle-footer" style="">
+                                    <li class="media">
+                                        <div class="pull-left"> <span class="icon fa-stack fa-lg"> <i class="fa fa-map-marker fa-stack-1x fa-inverse"></i> </span> </div>
+                                        <div class="media-body">
+                                            <p>Số 1, Võ Văn Ngân, Thành phố Thủ Đức, TP.HCM</p>
+                                        </div>
+                                    </li>
+                                    <li class="media">
+                                        <div class="pull-left"> <span class="icon fa-stack fa-lg"> <i class="fa fa-mobile fa-stack-1x fa-inverse"></i> </span> </div>
+                                        <div class="media-body">
+                                            <p> 0123456789 </p>
+                                        </div>
+                                    </li>
+                                    <li class="media">
+                                        <div class="pull-left"> <span class="icon fa-stack fa-lg"> <i class="fa fa-envelope fa-stack-1x fa-inverse"></i> </span> </div>
+                                        <div class="media-body"> <span><a href="#">kingdomlaptop@gmail.com</a></span> </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.module-body -->
+                    </div>
+                    <!-- /.col -->
+
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="module-heading">
+                            <h4 class="module-title">Dịch vụ</h4>
+                        </div>
+                        <!-- /.module-heading -->
+
+                        <div class="module-body">
+                            <ul class='list-unstyled'>
+                                <li class="first"><a href="#" title="Contact us">Tài khoản</a></li>
+                                <li><a href="#" title="About us">Lược sử</a></li>
+                                <li><a href="#" title="faq">Câu hỏi thường gặp</a></li>
+                                <li class="last"><a href="#" title="Where is my order?">Hỗ trợ</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.module-body -->
+                    </div>
+                    <!-- /.col -->
+
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="module-heading">
+                            <h4 class="module-title">Công ty</h4>
+                        </div>
+                        <!-- /.module-heading -->
+
+                        <div class="module-body">
+                            <ul class='list-unstyled'>
+                                <li class="first"><a title="Your Account" href="#">Tài khoản</a></li>
+                                <li><a title="Addresses" href="#">Thông tin</a></li>
+                                <li><a title="Information" href="#">Dịch vụ khách hàng</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.module-body -->
+                    </div>
+                    <!-- /.col -->
+
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="module-heading">
+                            <h4 class="module-title">Thông tin</h4>
+                        </div>
+                        <!-- /.module-heading -->
+
+                        <div class="module-body">
+                            <ul class='list-unstyled'>
+                                <li class="first"><a href="#" title="About">Thông tin</a></li>
+                                <li class=" last"><a href="/lien-he" title="Suppliers">Liên hệ</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.module-body -->
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - MyShop.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+        <div class="copyright-bar">
+            <div class="container">
+                <div class="col-xs-12 col-sm-4 no-padding social">
+                    <ul class="link">
+                        <li class="fb pull-left"><a target="_blank" rel="nofollow" href="#" title="Facebook"></a></li>
+                        <li class="tw pull-left"><a target="_blank" rel="nofollow" href="#" title="Twitter"></a></li>
+                        <li class="googleplus pull-left"><a target="_blank" rel="nofollow" href="#" title="GooglePlus"></a></li>
+                        <li class="youtube pull-left"><a target="_blank" rel="nofollow" href="#" title="Youtube"></a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4 no-padding copyright"> </div>
+                <div class="col-xs-12 col-sm-4 no-padding">
+                    <div class="clearfix payment-methods">
+                        <ul>
+                            <li><img src="~/Assets/client/images/payments/1.png" alt=""></li>
+                            <li><img src="~/Assets/client/images/payments/2.png" alt=""></li>
+                            <li><img src="~/Assets/client/images/payments/3.png" alt=""></li>
+                            <li><img src="~/Assets/client/images/payments/4.png" alt=""></li>
+                            <li><img src="~/Assets/client/images/payments/5.png" alt=""></li>
+                        </ul>
+                    </div>
+                    <!-- /.payment-methods -->
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- ============================================================= FOOTER : END============================================================= -->
+    <!-- For demo purposes – can be removed on production -->
+    <!-- For demo purposes – can be removed on production : End -->
+    <!-- JavaScripts placed at the end of the document so the pages load faster -->
+    <script src="~/Assets/client/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Assets/client/js/bootstrap.min.js"></script>
+    <script src="~/Assets/client/js/jquery-ui.js"></script>
+    <script src="~/Assets/client/js/controller/baseController.js"></script>
+    <script src="~/Assets/client/js/okzoom.js"></script>
+    <script>
+        $(function () {
+            $('#zoom').okzoom({
+                width: 100,
+                height: 100,
+                border: "1px solid black",
+                shadow: "0 0 5px #000"
+            });
+        });
+    </script>
+    <script src="~/Assets/client/js/bootstrap-hover-dropdown.min.js"></script>
+    <script src="~/Assets/client/js/owl.carousel.min.js"></script>
+    <script src="~/Assets/client/js/echo.min.js"></script>
+    <script src="~/Assets/client/js/jquery.easing-1.3.min.js"></script>
+    <script src="~/Assets/client/js/bootstrap-slider.min.js"></script>
+    <script src="~/Assets/client/js/jquery.rateit.min.js"></script>
+    <script src="~/Assets/client/js/lightbox.min.js"></script>
+    <script src="~/Assets/client/js/bootstrap-select.min.js"></script>
+    <script src="~/Assets/client/js/wow.min.js"></script>
+    <script src="~/Assets/client/js/scripts.js"></script>
+    <script src="~/Assets/client/js/ContactEmail.js"></script>
+    <script src="~/Assets/client/js/binhluan.js"></script>
+    <script src="~/Assets/client/js/ThongTinCaNhan.js"></script>
+    <script src="~/Assets/client/js/ChangePassword.js"></script>
+    <script>
+        function addcart() {
+            alert("Thêm vào giỏ hàng thành công!!!");
+        }
+    </script>
+    @RenderSection("jsFooter", required: false)
 </body>
+
 </html>
+
+
+@*<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - MyShop.WebApp</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyShop.WebApp</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2021 - MyShop.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+    </html>*@

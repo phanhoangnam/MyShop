@@ -61,23 +61,35 @@ namespace MyShop.Application.Users
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        public async Task<bool> Register(RegisterRequest request)
+        public async Task<ApiResult<bool>> Register(RegisterRequest request)
         {
-            var user = new AppUser()
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user != null)
+            {
+                return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
+            }
+
+            var emailUser = await _userManager.FindByEmailAsync(request.Email);
+            if (emailUser != null)
+            {
+                return new ApiErrorResult<bool>("Emai đã tồn tại");
+            }
+
+            user = new AppUser()
             {
                 Dob = request.Dob,
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                UserName = request.Username,
+                UserName = request.UserName,
                 PhoneNumber = request.PhoneNumber
             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
-                return true;
+                return new ApiSuccessResult<bool>();
             }
-            return false;
+            return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
     }
 }

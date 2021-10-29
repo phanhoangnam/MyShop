@@ -44,7 +44,7 @@ namespace MyShop.WebApp.Controllers
             var result = await _userApiClient.Login(request);
             if (result.ResultObj == null)
             {
-                ModelState.AddModelError("Nam", result.Message);
+                ModelState.AddModelError("", result.Message);
                 return View();
             }
             var userPrinciple = this.ValidateToken(result.ResultObj);
@@ -63,6 +63,44 @@ namespace MyShop.WebApp.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterRequest registerRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(registerRequest);
+            }
+
+            var result = await _userApiClient.Register(registerRequest);
+            if (!result.IsSuccessed)
+            {
+                ModelState.AddModelError("", result.Message);
+                return View();
+            }
+            var loginResult = await _userApiClient.Login(new LoginRequest()
+            {
+                UserName = registerRequest.UserName,
+                Password = registerRequest.Password,
+                RememberMe = true
+            });
+
+            var userPrincipal = this.ValidateToken(loginResult.ResultObj);
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                IsPersistent = false
+            };
+            HttpContext.Session.SetString("Token", loginResult.ResultObj);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, authProperties);
             return RedirectToAction("Index", "Home");
         }
 

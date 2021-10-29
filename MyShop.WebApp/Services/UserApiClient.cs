@@ -33,5 +33,21 @@ namespace MyShop.WebApp.Services
             
             return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
         }
+
+        public async Task<ApiResult<bool>> Register(RegisterRequest registerRequest)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5000");
+
+            var json = JsonConvert.SerializeObject(registerRequest);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("/api/users", httpContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+        }
     }
 }

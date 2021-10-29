@@ -10,5 +10,6 @@ namespace MyShop.WebApp.Services
     public interface IUserApiClient
     {
         Task<ApiResult<string>> Login(LoginRequest request);
+        Task<ApiResult<bool>> Register(RegisterRequest registerRequest);
     }
 }

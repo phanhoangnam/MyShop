@@ -11,9 +11,9 @@ namespace MyShop.ViewModels.Users
     {
         public LoginRequestValidator()
         {
-            RuleFor(x => x.UserName).NotEmpty().WithMessage("User name is required");
-            RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required")
-                .MinimumLength(6).WithMessage("Password is at least 6 characters");
+            RuleFor(x => x.UserName).NotEmpty().WithMessage("Tên đăng nhập không được để trống");
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Mật khẩu không được để trống")
+                .MinimumLength(8).WithMessage("Mật khẩu tối thiểu 8 ký tự");
         }
     }
 }

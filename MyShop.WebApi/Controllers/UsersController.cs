@@ -48,11 +48,11 @@ namespace MyShop.WebApi.Controllers
                 return BadRequest(ModelState);
 
             var result = await _userService.Register(request);
-            if (!result)
+            if (!result.IsSuccessed)
             {
-                return BadRequest("Register is unsuccessful.");
+                return BadRequest(result);
             }
-            return Ok();
+            return Ok(result);
         }
 
     }

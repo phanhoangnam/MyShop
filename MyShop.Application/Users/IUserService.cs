@@ -10,6 +10,6 @@ namespace MyShop.Application.Users
     public interface IUserService
     {
         Task<ApiResult<string>> Login(LoginRequest request);
-        Task<bool> Register(RegisterRequest request);
+        Task<ApiResult<bool>> Register(RegisterRequest request);
     }
 }

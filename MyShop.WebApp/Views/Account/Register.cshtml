@@ -1,0 +1,69 @@
+﻿@using MyShop.ViewModels.Users
+@model RegisterRequest
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <ul class="list-inline list-unstyled">
+                <li><a href="/">Trang chủ</a></li>
+                <li class='active'>Đăng ký</li>
+            </ul>
+        </div><!-- /.breadcrumb-inner -->
+    </div><!-- /.container -->
+</div><!-- /.breadcrumb -->
+
+<div class="body-content">
+    <div class="container">
+        <div class="sign-in-page" style="width: 40%; margin: auto;">
+            <div class="row">
+                <!-- create a new account -->
+                <div class="col-md col-sm create-new-account">
+                    <h4 class="checkout-subtitle">Đăng ký</h4>
+                    @*<p class="text title-tag-line">Create your new account.</p>*@
+                    <form class="register-form outer-top-xs" role="form" asp-action="Register" asp-controller="Account" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div><br />
+                        <div class="form-group">
+                            <label class="info-title">Họ <span>*</span></label>
+                            <input type="text" asp-for="LastName" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="info-title">Tên <span>*</span></label>
+                            <input type="text" asp-for="FirstName" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="info-title">Ngày sinh <span>*</span></label>
+                            <input type="date" asp-for="Dob" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="info-title">Email <span>*</span></label>
+                            <input type="email" asp-for="Email" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="info-title">Số điện thoại <span>*</span></label>
+                            <input type="tel" asp-for="PhoneNumber" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="info-title">Tên đăng nhập <span>*</span></label>
+                            <input type="text" asp-for="UserName" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="info-title">Mật khẩu <span>*</span></label>
+                            <input type="password" asp-for="Password" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="info-title">Xác nhận mật khẩu <span>*</span></label>
+                            <input type="password" asp-for="ConfirmPassword" class="form-control unicase-form-control text-input">
+                        </div>
+                        <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Đăng ký</button>
+                    </form>
+                </div>
+                <!-- create a new account -->
+            </div><!-- /.row -->
+
+        </div><!-- /.sigin-in-->
+    </div>
+</div>

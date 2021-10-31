@@ -14,6 +14,7 @@ namespace MyShop.ViewModels.Products
         public string Configuration { get; set; }
         public decimal Price { get; set; }
         public decimal OriginalPrice { get; set; }
+        public bool? IsFeatured { get; set; }
         public int CategoryId { get; set; }
         public IFormFile ThumbnailImage { get; set; }
     }

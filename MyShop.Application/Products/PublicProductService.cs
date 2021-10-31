@@ -53,7 +53,7 @@ namespace MyShop.Application.Products
             // 4. Select and projection
             var pageResult = new PagedResult<ProductViewModel>()
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
                 Items = data
             };
 

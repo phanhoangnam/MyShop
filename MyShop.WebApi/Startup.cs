@@ -63,7 +63,7 @@ namespace MyShop.WebApi
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
-            services.AddTransient<IManageCategoryService, ManageCategoryService>();
+            services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IEmailSender, EmailSenderService>();
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();

@@ -46,6 +46,14 @@ namespace MyShop.WebApi.Controllers
             return Ok(product);
         }
 
+        [HttpGet("featured/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFeaturedProducts(int take)
+        {
+            var products = await _manageProductService.GetFeaturedProducts(take);
+            return Ok(products);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {

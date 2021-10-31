@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace MyShop.Application.Categories
 {
-    public class ManageCategoryService : IManageCategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly MyShopDBContext _context;
 
-        public ManageCategoryService(MyShopDBContext context)
+        public CategoryService(MyShopDBContext context)
         {
             _context = context;
         }

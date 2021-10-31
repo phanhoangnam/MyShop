@@ -22,6 +22,7 @@ using FluentValidation.AspNetCore;
 using MyShop.ViewModels.Users;
 using MyShop.WebApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace MyShop.WebApp
 {
@@ -61,7 +62,11 @@ namespace MyShop.WebApp
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+            services.AddTransient<IProductApiClient, ProductApiClient>();
             
         }
 

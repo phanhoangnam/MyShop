@@ -19,7 +19,9 @@ namespace MyShop.ViewModels.Users
 
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email không thể bỏ trống");
 
-            RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("Số điện thoại không thể bỏ trống");
+            RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("Số điện thoại không thể bỏ trống")
+                .Matches(@"^0+[0-9]{9}$")
+                .WithMessage("Số điện thoại không đúng định dạng");
 
             RuleFor(x => x.UserName).NotEmpty().WithMessage("Tên tài khoản không thể bỏ trống");
 

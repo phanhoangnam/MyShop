@@ -23,7 +23,8 @@ namespace MyShop.WebApp.Services
 
         public async Task<List<CategoryViewModel>> GetAll()
         {
-            return await GetListAsync<CategoryViewModel>("/api/categories");
+            var data = await GetListAsync<CategoryViewModel>("/api/categories");
+            return data;
         }
     }
 }

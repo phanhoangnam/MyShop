@@ -17,6 +17,7 @@ namespace MyShop.ViewModels.Products
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool? IsFeatured { get; set; }
+        public string ThumbnailImage { get; set; }
         public int CategoryId { get; set; }
     }
 }

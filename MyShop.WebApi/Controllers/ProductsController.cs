@@ -54,6 +54,30 @@ namespace MyShop.WebApi.Controllers
             return Ok(products);
         }
 
+        [HttpGet("lower15/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProductsLower15(int take)
+        {
+            var products = await _manageProductService.GetProductsLower15(take);
+            return Ok(products);
+        }
+
+        [HttpGet("15to20/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProducts15To20(int take)
+        {
+            var products = await _manageProductService.GetProducts15To20(take);
+            return Ok(products);
+        }
+
+        [HttpGet("higher20/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProductsHigher20(int take)
+        {
+            var products = await _manageProductService.GetProductsHigher20(take);
+            return Ok(products);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {

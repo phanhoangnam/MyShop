@@ -77,6 +77,24 @@ namespace MyShop.WebApp.Services
             return data;
         }
 
+        public async Task<List<ProductViewModel>> GetProductsLower15(int take)
+        {
+            var data = await GetListAsync<ProductViewModel>($"/api/products/lower15/{take}");
+            return data;
+        }
+
+        public async Task<List<ProductViewModel>> GetProducts15To20(int take)
+        {
+            var data = await GetListAsync<ProductViewModel>($"/api/products/15to20/{take}");
+            return data;
+        }
+
+        public async Task<List<ProductViewModel>> GetProductsHigher20(int take)
+        {
+            var data = await GetListAsync<ProductViewModel>($"/api/products/higher20/{take}");
+            return data;
+        }
+
         public async Task<PagedResult<ProductViewModel>> GetPagings(GetManageProductPagingRequest request)
         {
             var data = await GetAsync<PagedResult<ProductViewModel>>(

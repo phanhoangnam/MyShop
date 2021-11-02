@@ -161,7 +161,7 @@ namespace MyShop.Data.Migrations
                         new
                         {
                             Id = new Guid("c99df4d6-ac53-43be-89f8-ff5ee9e54c53"),
-                            ConcurrencyStamp = "c6b2764c-db75-4697-8d33-e6fe1d1d71f6",
+                            ConcurrencyStamp = "07777651-f517-4137-85df-1812557e3eda",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -247,7 +247,7 @@ namespace MyShop.Data.Migrations
                         {
                             Id = new Guid("bad6dda3-7416-4b04-9fa7-d003c251fba0"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b71de1f8-07e5-46c3-8e2a-5f767eb6a459",
+                            ConcurrencyStamp = "6346be9b-47e5-4a81-8358-7b418673b126",
                             Dob = new DateTime(1999, 11, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "phan99hoangnam@gmail.com",
                             EmailConfirmed = true,
@@ -256,7 +256,7 @@ namespace MyShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "phan99hoangnam@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM8eiKdnV4vAk2hjnzIRCkJfjz/zXwL3FMkeV0syfjzmRno/7eR7JMHSJX2117G0iA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPCy0WtN80GddiDfk9Du4Ug0TaVrSP/1EIHt476RES+gPS4FEr8Rc97Xpvij9uHwqA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -325,6 +325,9 @@ namespace MyShop.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsFeatured")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -349,48 +352,48 @@ namespace MyShop.Data.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Configuration = "<p><strong>Màn hình:</strong> 15.6 inch, Full HD (1920 x 1080)</p><p><strong>CPU:</strong> Intel Core i5 Ice Lake, 1.00 GHz</p><p><strong>RAM:</strong> 4 GB, SSD 256GB NVMe PCIe, <br/>Hỗ trợ khe cắm HDD SATA</p><p><strong>Đồ họa:</strong> Intel UHD Graphics</p><p><strong>HĐH:</strong> Windows 10 Home SL</p><p><strong>Nặng:</strong> 1.695 kg</p><p><strong> Pin:</strong> Li-Ion 3 cell</p>",
-                            CreatedDate = new DateTime(2021, 10, 22, 16, 42, 27, 942, DateTimeKind.Local).AddTicks(5710),
+                            CreatedDate = new DateTime(2021, 10, 30, 22, 18, 59, 496, DateTimeKind.Local).AddTicks(3448),
                             Description = "Laptop HP Pavilion 15 cs3014TU i5 (8QP20PA) là chiếc máy tính xách tay học tập văn phòng có cấu hình khá, vận hành nhanh, thiết kế gọn nhẹ phù hợp với nhu cầu của người dùng trẻ cần di chuyển nhiều.",
                             Name = "Laptop HP Pavilion 15 cs3014TU i5 1035G1/4GB/256GB/Win10 (8QP20PA)",
                             OriginalPrice = 10000000m,
                             Price = 15590000m,
-                            UpdatedDate = new DateTime(2021, 10, 22, 16, 42, 27, 947, DateTimeKind.Local).AddTicks(6352)
+                            UpdatedDate = new DateTime(2021, 10, 30, 22, 18, 59, 497, DateTimeKind.Local).AddTicks(8976)
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 1,
                             Configuration = "<p><strong>Màn hình:</strong> 13.3 inch, HD (1366 x 768)</p><p><strong>CPU:</strong> Intel Core i5 Coffee Lake, 1.60 GHz</p><p><strong>RAM:</strong> 4 GB, HDD: 1 TB SATA3,<br/>Hỗ trợ khe cắm SSD M.2 SATA3</p><p><strong>Đồ họa:,/strong> Intel® UHD Graphics 620</p><p><strong>HĐH:</strong> Windows 10 Home SL</p><p><strong>Nặng:</strong> 1.52 kg</p><p><strong> Pin:</strong> Li-Ion 3 cell</p>",
-                            CreatedDate = new DateTime(2021, 10, 22, 16, 42, 27, 947, DateTimeKind.Local).AddTicks(8742),
+                            CreatedDate = new DateTime(2021, 10, 30, 22, 18, 59, 498, DateTimeKind.Local).AddTicks(1230),
                             Description = "Laptop HP Probook 430 G6 (5YM98PA) là chiếc laptop mỏng nhẹ phù hợp với dân văn phòng và sinh viên. Với Chip Core i5, RAM 4 GB, chiếc laptop HP Probook 430 có sức mạnh đủ để chạy tốt các ứng dụng văn phòng và giải trí thường ngày.",
                             Name = "Laptop HP Probook 13 i5 8265U/4GB/1TB/Win10 (5YM98PA)",
                             OriginalPrice = 9000000m,
                             Price = 15590000m,
-                            UpdatedDate = new DateTime(2021, 10, 22, 16, 42, 27, 947, DateTimeKind.Local).AddTicks(8750)
+                            UpdatedDate = new DateTime(2021, 10, 30, 22, 18, 59, 498, DateTimeKind.Local).AddTicks(1238)
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 2,
                             Configuration = "<p><strong>Màn hình: </strong>15.6 inch, Full HD (1920 x 1080)</p><p><strong>CPU: </strong>Intel Core i3 Kabylake, 2.30 GHz</p><p><strong>RAM:</strong> 4 GB, HDD: 1 TB SATA3<br/>Hỗ trợ khe cắm SSD M.2 PCIe</p><p><strong>Đồ họa:</strong> Intel® UHD Graphics 620</p><p><strong>HĐH:</strong> Windows 10 Home SL</p><p><strong>Nặng:</strong> 2.28 kg</p><p><strong>Pin:</strong> Li-Ion 3 cell</p>",
-                            CreatedDate = new DateTime(2021, 10, 22, 16, 42, 27, 947, DateTimeKind.Local).AddTicks(8755),
+                            CreatedDate = new DateTime(2021, 10, 30, 22, 18, 59, 498, DateTimeKind.Local).AddTicks(1243),
                             Description = "Laptop Dell Inspiron 3581 có thiết kế đơn giản, độ bền cao, là chiếc laptop 15.6 inch giá rẻ phù hợp với sinh viên.",
                             Name = "Laptop Dell Inspiron 3581 i3 7020U/4GB/1TB/Win10 (P75F005N81A)",
                             OriginalPrice = 8000000m,
                             Price = 10290000m,
-                            UpdatedDate = new DateTime(2021, 10, 22, 16, 42, 27, 947, DateTimeKind.Local).AddTicks(8757)
+                            UpdatedDate = new DateTime(2021, 10, 30, 22, 18, 59, 498, DateTimeKind.Local).AddTicks(1244)
                         },
                         new
                         {
                             Id = 4,
                             CategoryId = 2,
                             Configuration = "<p><strong>Màn hình: </strong>15.6 inch, Full HD (1920 x 1080)</p><p><strong>CPU: </strong>Intel Core i7 Comet Lake, 1.80 GHz</p><p><strong>RAM: </strong>8 GB, SSD 256GB NVMe PCIe<br/>Hỗ trợ khe cắm HDD SATA</p><p><strong>Đồ họa: </strong>AMD Radeon 610R5, 2GB</p><p><strong>HĐH: </strong>Windows 10 Home SL</p><p><strong>Nặng:</strong> 1.99</p><p><strong>Pin: </strong>Li-Ion 3 cell</p>",
-                            CreatedDate = new DateTime(2021, 10, 22, 16, 42, 27, 947, DateTimeKind.Local).AddTicks(8761),
+                            CreatedDate = new DateTime(2021, 10, 30, 22, 18, 59, 498, DateTimeKind.Local).AddTicks(1248),
                             Description = "Laptop Dell Vostro 3590 i7 (GRMGK2) là phiên bản laptop đồ họa kĩ thuật có thiết kế hiện đại, cấu hình khỏe với vi xử lí gen 10 và card đồ họa rời. Đây chính là chiếc laptop đáng cân nhắc đối với dân đồ họa hay sinh viên khối ngành kĩ thuật.",
                             Name = "Laptop Dell Vostro 3590 i7 10510U/8GB/256GB/2GB 610R5/Win10 (GRMGK2)",
                             OriginalPrice = 15000000m,
                             Price = 25000000m,
-                            UpdatedDate = new DateTime(2021, 10, 22, 16, 42, 27, 947, DateTimeKind.Local).AddTicks(8762)
+                            UpdatedDate = new DateTime(2021, 10, 30, 22, 18, 59, 498, DateTimeKind.Local).AddTicks(1249)
                         });
                 });
 

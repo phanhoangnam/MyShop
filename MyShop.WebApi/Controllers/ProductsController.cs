@@ -13,7 +13,6 @@ namespace MyShop.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IPublicProductService _publicProductService;
@@ -25,8 +24,8 @@ namespace MyShop.WebApi.Controllers
             _manageProductService = manageProductService;
         }
 
-        // http://localhost:port/products?pageIndex=1&pageSize=10&CategoryId=
-        [HttpGet]
+        // http://localhost:port/products/paging?pageIndex=1&pageSize=10&CategoryId=
+        [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetPublicProductPagingRequest request)
         {
             var products = await _publicProductService.GetAllByCategoryId(request);
@@ -34,8 +33,9 @@ namespace MyShop.WebApi.Controllers
         }
 
 
-        // http://localhost:port/product/productId
+        // http://localhost:port/products/productId
         [HttpGet("{productId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int productId)
         {
             var product = await _manageProductService.GetById(productId);
@@ -44,6 +44,38 @@ namespace MyShop.WebApi.Controllers
                 return NotFound("Cannot find product");
             }
             return Ok(product);
+        }
+
+        [HttpGet("featured/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFeaturedProducts(int take)
+        {
+            var products = await _manageProductService.GetFeaturedProducts(take);
+            return Ok(products);
+        }
+
+        [HttpGet("lower15/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProductsLower15(int take)
+        {
+            var products = await _manageProductService.GetProductsLower15(take);
+            return Ok(products);
+        }
+
+        [HttpGet("15to20/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProducts15To20(int take)
+        {
+            var products = await _manageProductService.GetProducts15To20(take);
+            return Ok(products);
+        }
+
+        [HttpGet("higher20/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProductsHigher20(int take)
+        {
+            var products = await _manageProductService.GetProductsHigher20(take);
+            return Ok(products);
         }
 
         [HttpPost]

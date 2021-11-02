@@ -23,5 +23,12 @@ namespace MyShop.Application.Products
         Task<int> RemoveImage(int imageId);
         Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
         Task<List<ProductImageViewModel>> GetListImages(int productId);
+
+        Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request);
+        Task<List<ProductViewModel>> GetFeaturedProducts(int take);
+        Task<List<ProductViewModel>> GetProductsLower15(int take);
+        Task<List<ProductViewModel>> GetProducts15To20(int take);
+        Task<List<ProductViewModel>> GetProductsHigher20(int take);
+
     }
 }

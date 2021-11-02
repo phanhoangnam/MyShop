@@ -15,6 +15,14 @@ using IdentityServer4.Configuration;
 using IdentityServer4.Test;
 using IdentityServer4.Models;
 using MyShop.Data.EF;
+using MyShop.Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using FluentValidation.AspNetCore;
+using MyShop.ViewModels.Users;
+using MyShop.WebApp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace MyShop.WebApp
 {
@@ -30,7 +38,36 @@ namespace MyShop.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //services.AddDbContext<MyShopDBContext>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("MyShopDb")));
+
+            //services.AddIdentity<AppUser, AppRole>()
+            //    .AddEntityFrameworkStores<MyShopDBContext>()
+            //    .AddDefaultTokenProviders();
+
+            services.AddHttpClient();
+
+            services.AddControllersWithViews()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RegisterRequestValidator>());
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/Forbidden";
+            });
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+            services.AddTransient<IProductApiClient, ProductApiClient>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,13 +86,31 @@ namespace MyShop.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseRouting();
             
             
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Product Category",
+                    pattern: "danh-muc/{id}",
+                    new { 
+                        controller = "Product",
+                        action = "Category"
+                    });
+
+                endpoints.MapControllerRoute(
+                    name: "Product Detail",
+                    pattern: "san-pham/{id}",
+                    new
+                    {
+                        controller = "Product",
+                        action = "Detail"
+                    });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

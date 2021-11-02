@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyShop.Application.Categories
 {
-    public interface IManageCategoryService
+    public interface ICategoryService
     {
         Task<int> Create(CategoryCreateRequest request);
         Task<int> Update(CategoryUpdateRequest request);

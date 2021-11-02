@@ -15,24 +15,26 @@ namespace MyShop.WebApi.Controllers
     [Authorize]
     public class CategoriesController : ControllerBase
     {
-        private readonly IManageCategoryService _manageCategoryService;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesController(IManageCategoryService manageCategoryService)
+        public CategoriesController(ICategoryService categoryService)
         {
-            _manageCategoryService = manageCategoryService;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _manageCategoryService.GetAll();
+            var categories = await _categoryService.GetAll();
             return Ok(categories);
         }
 
         [HttpGet("{categoryId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int categoryId)
         {
-            var category = await _manageCategoryService.GetById(categoryId);
+            var category = await _categoryService.GetById(categoryId);
             if (category == null)
             {
                 return BadRequest("Cannot find category");
@@ -48,14 +50,14 @@ namespace MyShop.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var categoryId = await _manageCategoryService.Create(request);
+            var categoryId = await _categoryService.Create(request);
 
             if (categoryId == 0)
             {
                 return BadRequest();
             }
 
-            var category = await _manageCategoryService.GetById(categoryId);
+            var category = await _categoryService.GetById(categoryId);
             return CreatedAtAction(nameof(GetById), new { id = categoryId }, category);
 
         }
@@ -67,7 +69,7 @@ namespace MyShop.WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var affectedRequest = await _manageCategoryService.Update(request);
+            var affectedRequest = await _categoryService.Update(request);
             if (affectedRequest == 0)
             {
                 return BadRequest();
@@ -78,7 +80,7 @@ namespace MyShop.WebApi.Controllers
         [HttpDelete("{categoryId}")]
         public async Task<IActionResult> Delete(int categoryId)
         {
-            var affectedRequest = await _manageCategoryService.Delete(categoryId);
+            var affectedRequest = await _categoryService.Delete(categoryId);
             if (affectedRequest == 0)
             {
                 return BadRequest();

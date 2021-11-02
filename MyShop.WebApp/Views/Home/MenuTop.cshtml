@@ -1,0 +1,23 @@
+﻿
+@{
+    var session = "";
+    //var session = (KingdomLaptop.Common.UserLogin)Session[KingdomLaptop.Common.CommonConstants.CLIENT_USER_SESSION];
+}
+@if (session == "")
+{
+    <ul class="list-unstyled">
+        <li class="wishlist"><a href="#"><span>Yêu thích</span></a></li>
+        <li class="login"><a href="/dang-nhap"><span>Đăng nhập</span></a></li>
+        <li class="login"><a href="/dang-ky"><span>Đăng ký</span></a></li>
+    </ul>
+}
+else
+{
+<ul class="list-unstyled">
+    @*<li class="myaccount"><a href="/thong-tin-ca-nhan"><span>Xin chào : @session.Name</span></a></li>*@
+    <li class="wishlist"><a href="/doi-mat-khau"><span>Đổi mật khẩu</span></a></li>
+    <li class="wishlist"><a href="/san-pham-yeu-thich"><span>Yêu thích</span></a></li>
+    <li class="logout">@Html.ActionLink("Đăng xuất", "Logout", "Login")</li>
+</ul>
+}
+

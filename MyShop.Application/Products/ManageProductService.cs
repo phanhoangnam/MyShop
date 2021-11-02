@@ -113,9 +113,9 @@ namespace MyShop.Application.Products
                 query = query.Where(x => x.p.Name.Contains(request.Keyword));
             }
 
-            if (request.CategoryIds.Count > 0)
+            if (request.CategoryId != null && request.CategoryId != 0)
             {
-                query = query.Where(x => request.CategoryIds.Contains(x.p.CategoryId));
+                query = query.Where(x => x.p.CategoryId == request.CategoryId);
             }
 
             // 3. Paging
@@ -137,7 +137,9 @@ namespace MyShop.Application.Products
             // 4. Select and projection
             var pageResult = new PagedResult<ProductViewModel>()
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
+                PageSize = request.PageSize,
+                PageIndex = request.PageIndex,
                 Items = data
             };
 
@@ -147,7 +149,9 @@ namespace MyShop.Application.Products
         public async Task<ProductViewModel> GetById(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
-            
+
+            var productImage = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
+
             var productViewModel = new ProductViewModel()
             {
                 Id = product.Id,
@@ -158,9 +162,75 @@ namespace MyShop.Application.Products
                 Name = product.Name,
                 OriginalPrice = product.OriginalPrice,
                 Price = product.Price,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                ThumbnailImage = productImage.ImagePath,
             };
             return productViewModel;
+        }
+
+        public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join c in _context.Categories on p.CategoryId equals c.Id
+                        select new { p };
+            //2. filter
+            if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
+            {
+                query = query.Where(x => x.p.CategoryId == request.CategoryId);
+            }
+            //3. Paging
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new ProductViewModel()
+                {
+                    Id = x.p.Id,
+                    Name = x.p.Name,
+                    CreatedDate = x.p.CreatedDate,
+                    Description = x.p.Description,
+                    Configuration = x.p.Configuration,
+                    OriginalPrice = x.p.OriginalPrice,
+                    Price = x.p.Price,
+                }).ToListAsync();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<ProductViewModel>()
+            {
+                TotalRecords = totalRow,
+                PageSize = request.PageSize,
+                PageIndex = request.PageIndex,
+                Items = data
+            };
+            return pagedResult;
+        }
+
+        public async Task<List<ProductViewModel>> GetFeaturedProducts(int take)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                        from pi in ppi.DefaultIfEmpty()
+                        join c in _context.Categories on p.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        where p.IsFeatured == true
+                        select new { p, pi };
+
+            var data = await query.OrderByDescending(x => x.p.CreatedDate).Take(take)
+                .Select(x => new ProductViewModel()
+                {
+                    Id = x.p.Id,
+                    Name = x.p.Name,
+                    CreatedDate = x.p.CreatedDate,
+                    Description = x.p.Description,
+                    Configuration = x.p.Configuration,
+                    OriginalPrice = x.p.OriginalPrice,
+                    Price = x.p.Price,
+                    ThumbnailImage = x.pi.ImagePath
+                }).ToListAsync();
+
+            return data;
         }
 
         public async Task<ProductImageViewModel> GetImageById(int imageId)
@@ -271,6 +341,87 @@ namespace MyShop.Application.Products
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return fileName;
+        }
+
+        public async Task<List<ProductViewModel>> GetProductsLower15(int take)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                        from pi in ppi.DefaultIfEmpty()
+                        join c in _context.Categories on p.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        where p.IsFeatured == true && p.Price < (decimal)15000000
+                        select new { p, pi };
+
+            var data = await query.OrderByDescending(x => x.p.CreatedDate).Take(take)
+                .Select(x => new ProductViewModel()
+                {
+                    Id = x.p.Id,
+                    Name = x.p.Name,
+                    CreatedDate = x.p.CreatedDate,
+                    Description = x.p.Description,
+                    Configuration = x.p.Configuration,
+                    OriginalPrice = x.p.OriginalPrice,
+                    Price = x.p.Price,
+                    ThumbnailImage = x.pi.ImagePath
+                }).ToListAsync();
+
+            return data;
+        }
+
+        public async Task<List<ProductViewModel>> GetProducts15To20(int take)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                        from pi in ppi.DefaultIfEmpty()
+                        join c in _context.Categories on p.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        where p.IsFeatured == true && p.Price >= (decimal)15000000 && p.Price <= (decimal)20000000
+                        select new { p, pi };
+
+            var data = await query.OrderByDescending(x => x.p.CreatedDate).Take(take)
+                .Select(x => new ProductViewModel()
+                {
+                    Id = x.p.Id,
+                    Name = x.p.Name,
+                    CreatedDate = x.p.CreatedDate,
+                    Description = x.p.Description,
+                    Configuration = x.p.Configuration,
+                    OriginalPrice = x.p.OriginalPrice,
+                    Price = x.p.Price,
+                    ThumbnailImage = x.pi.ImagePath
+                }).ToListAsync();
+
+            return data;
+        }
+
+        public async Task<List<ProductViewModel>> GetProductsHigher20(int take)
+        {
+            //1. Select join
+            var query = from p in _context.Products
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                        from pi in ppi.DefaultIfEmpty()
+                        join c in _context.Categories on p.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        where p.IsFeatured == true && p.Price > (decimal)20000000
+                        select new { p, pi };
+
+            var data = await query.OrderByDescending(x => x.p.CreatedDate).Take(take)
+                .Select(x => new ProductViewModel()
+                {
+                    Id = x.p.Id,
+                    Name = x.p.Name,
+                    CreatedDate = x.p.CreatedDate,
+                    Description = x.p.Description,
+                    Configuration = x.p.Configuration,
+                    OriginalPrice = x.p.OriginalPrice,
+                    Price = x.p.Price,
+                    ThumbnailImage = x.pi.ImagePath
+                }).ToListAsync();
+
+            return data;
         }
     }
 

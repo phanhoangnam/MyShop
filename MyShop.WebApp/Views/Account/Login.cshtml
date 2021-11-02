@@ -1,0 +1,57 @@
+﻿@using MyShop.ViewModels.Users
+@model LoginRequest
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <ul class="list-inline list-unstyled">
+                <li><a href="/">Trang chủ</a></li>
+                <li class='active'>Đăng nhập</li>
+            </ul>
+        </div><!-- /.breadcrumb-inner -->
+    </div><!-- /.container -->
+</div><!-- /.breadcrumb -->
+
+<div class="body-content">
+    <div class="container">
+        <div class="sign-in-page" style="width: 30%; margin: auto;">
+            <div class="row">
+                <!-- Sign-in -->
+                <div class="col-md col-sm sign-in">
+                    <h4 class="">Đăng nhập</h4>
+                    @*<p class="">Hello, Welcome to your account.</p>
+                    <div class="social-sign-in outer-top-xs">
+                        <a href="#" class="facebook-sign-in"><i class="fa fa-facebook"></i> Sign In with Facebook</a>
+                        <a href="#" class="twitter-sign-in"><i class="fa fa-twitter"></i> Sign In with Twitter</a>
+                    </div>*@
+                    <form class="register-form outer-top-xs" role="form" asp-action="Login" asp-controller="Account" method="post">
+                        @*<span>@Html.ValidationSummary(false, "", new { @class = "text-danger" })</span><br/>*@
+                        <div asp-validation-summary="All" class="text-danger"></div><br />
+
+                        <div class="form-group">
+                            <label class="info-title">Tên đăng nhập <span>*</span></label>
+                            <input type="text" asp-for="UserName" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="info-title">Mật khẩu <span>*</span></label>
+                            <input type="password" asp-for="Password" class="form-control unicase-form-control text-input">
+                        </div>
+                        <div class="radio outer-xs">
+                            <label>
+                                <input type="checkbox" asp-for="RememberMe"> Nhớ tài khoản
+                            </label>
+                            <a href="#" class="forgot-password pull-right">Quên mật khẩu?</a>
+                        </div>
+                        <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Đăng nhập</button>
+                    </form>
+                </div>
+                <!-- Sign-in -->
+            </div><!-- /.row -->
+
+        </div><!-- /.sigin-in-->
+    </div>
+</div>

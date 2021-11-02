@@ -19,6 +19,7 @@ using Microsoft.OpenApi.Models;
 using MyShop.Application.Common;
 using MyShop.Application.Products;
 using MyShop.Application.Categories;
+using MyShop.Application.Users;
 
 namespace MyShop.WebApi
 {
@@ -34,6 +35,8 @@ namespace MyShop.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
             services.AddDbContext<MyShopDBContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("MyShopDb")));
 
@@ -60,8 +63,12 @@ namespace MyShop.WebApi
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
-            services.AddTransient<IManageCategoryService, ManageCategoryService>();
+            services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IEmailSender, EmailSenderService>();
+            services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddRazorPages(options =>
             {

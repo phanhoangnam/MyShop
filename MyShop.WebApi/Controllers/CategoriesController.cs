@@ -31,6 +31,7 @@ namespace MyShop.WebApi.Controllers
         }
 
         [HttpGet("{categoryId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int categoryId)
         {
             var category = await _categoryService.GetById(categoryId);

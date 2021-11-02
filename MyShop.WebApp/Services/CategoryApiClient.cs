@@ -26,5 +26,10 @@ namespace MyShop.WebApp.Services
             var data = await GetListAsync<CategoryViewModel>("/api/categories");
             return data;
         }
+
+        public async Task<CategoryViewModel> GetById(int id)
+        {
+            return await GetAsync<CategoryViewModel>($"/api/categories/{id}");
+        }
     }
 }

@@ -13,7 +13,6 @@ namespace MyShop.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IPublicProductService _publicProductService;
@@ -25,8 +24,8 @@ namespace MyShop.WebApi.Controllers
             _manageProductService = manageProductService;
         }
 
-        // http://localhost:port/products?pageIndex=1&pageSize=10&CategoryId=
-        [HttpGet]
+        // http://localhost:port/products/paging?pageIndex=1&pageSize=10&CategoryId=
+        [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetPublicProductPagingRequest request)
         {
             var products = await _publicProductService.GetAllByCategoryId(request);
@@ -34,8 +33,9 @@ namespace MyShop.WebApi.Controllers
         }
 
 
-        // http://localhost:port/product/productId
+        // http://localhost:port/products/productId
         [HttpGet("{productId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int productId)
         {
             var product = await _manageProductService.GetById(productId);

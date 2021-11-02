@@ -11,5 +11,6 @@ namespace MyShop.WebApp.Services
     public interface ICategoryApiClient
     {
         Task<List<CategoryViewModel>> GetAll();
+        Task<CategoryViewModel> GetById(int id);
     }
 }

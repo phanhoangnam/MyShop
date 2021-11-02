@@ -24,8 +24,9 @@ namespace MyShop.Application.Products
         {
             // 1. Select join
             var query = from p in _context.Products
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId
                         join c in _context.Categories on p.CategoryId equals c.Id
-                        select new { p };
+                        select new { p, pi };
 
             // 2. Filter
 
@@ -48,6 +49,7 @@ namespace MyShop.Application.Products
                     Configuration = x.p.Configuration,
                     OriginalPrice = x.p.OriginalPrice,
                     Price = x.p.Price,
+                    ThumbnailImage = x.pi.ImagePath
                 }).ToListAsync();
 
             // 4. Select and projection

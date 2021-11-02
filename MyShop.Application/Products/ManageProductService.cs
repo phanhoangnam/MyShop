@@ -149,7 +149,9 @@ namespace MyShop.Application.Products
         public async Task<ProductViewModel> GetById(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
-            
+
+            var productImage = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
+
             var productViewModel = new ProductViewModel()
             {
                 Id = product.Id,
@@ -160,7 +162,8 @@ namespace MyShop.Application.Products
                 Name = product.Name,
                 OriginalPrice = product.OriginalPrice,
                 Price = product.Price,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                ThumbnailImage = productImage.ImagePath,
             };
             return productViewModel;
         }

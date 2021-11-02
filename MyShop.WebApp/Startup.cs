@@ -95,6 +95,23 @@ namespace MyShop.WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "Product Category",
+                    pattern: "danh-muc/{id}",
+                    new { 
+                        controller = "Product",
+                        action = "Category"
+                    });
+
+                endpoints.MapControllerRoute(
+                    name: "Product Detail",
+                    pattern: "san-pham/{id}",
+                    new
+                    {
+                        controller = "Product",
+                        action = "Detail"
+                    });
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });

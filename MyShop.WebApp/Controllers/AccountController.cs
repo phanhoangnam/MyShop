@@ -35,7 +35,7 @@ namespace MyShop.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +56,15 @@ namespace MyShop.WebApp.Controllers
 
             HttpContext.Session.SetString("Token", result.ResultObj);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrinciple, authProperties);
-            return RedirectToAction("Index", "Home");
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpPost]

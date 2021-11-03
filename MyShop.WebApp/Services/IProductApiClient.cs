@@ -1,5 +1,6 @@
 ﻿using MyShop.ViewModels.Categories;
 using MyShop.ViewModels.Common;
+using MyShop.ViewModels.ProductRatings;
 using MyShop.ViewModels.Products;
 using MyShop.ViewModels.Users;
 using System;
@@ -21,5 +22,8 @@ namespace MyShop.WebApp.Services
         Task<List<ProductViewModel>> GetProductsLower15(int take);
         Task<List<ProductViewModel>> GetProducts15To20(int take);
         Task<List<ProductViewModel>> GetProductsHigher20(int take);
+
+        Task<bool> AddRating(int productId, Guid userId, ProductRatingCreateRequest request);
+        Task<List<ProductRatingViewModel>> GetRatingByProductId(int productId);
     }
 }

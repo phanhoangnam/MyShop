@@ -43,7 +43,7 @@ namespace MyShop.Data.Extensions
                                     "<p><strong>Đồ họa:</strong> Intel UHD Graphics</p>" +
                                     "<p><strong>HĐH:</strong> Windows 10 Home SL</p>" +
                                     "<p><strong>Nặng:</strong> 1.695 kg</p>" +
-                                    "<p><strong> Pin:</strong> Li-Ion 3 cell</p>",
+                                    "<p><strong>Pin:</strong> Li-Ion 3 cell</p>",
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
                     OriginalPrice = 10000000,
@@ -60,10 +60,10 @@ namespace MyShop.Data.Extensions
                     Configuration = "<p><strong>Màn hình:</strong> 13.3 inch, HD (1366 x 768)</p>" +
                                     "<p><strong>CPU:</strong> Intel Core i5 Coffee Lake, 1.60 GHz</p>" +
                                     "<p><strong>RAM:</strong> 4 GB, HDD: 1 TB SATA3,<br/>Hỗ trợ khe cắm SSD M.2 SATA3</p>" +
-                                    "<p><strong>Đồ họa:,/strong> Intel® UHD Graphics 620</p>" +
+                                    "<p><strong>Đồ họa:</strong> Intel® UHD Graphics 620</p>" +
                                     "<p><strong>HĐH:</strong> Windows 10 Home SL</p>" +
                                     "<p><strong>Nặng:</strong> 1.52 kg</p>" +
-                                    "<p><strong> Pin:</strong> Li-Ion 3 cell</p>",
+                                    "<p><strong>Pin:</strong> Li-Ion 3 cell</p>",
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
                     OriginalPrice = 9000000,

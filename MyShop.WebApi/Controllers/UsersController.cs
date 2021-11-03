@@ -55,5 +55,12 @@ namespace MyShop.WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{userName}")]
+        public async Task<IActionResult> GetUserByUserName(string userName)
+        {
+            var user = await _userService.GetUserByUserName(userName);
+            return Ok(user);
+        }
+
     }
 }

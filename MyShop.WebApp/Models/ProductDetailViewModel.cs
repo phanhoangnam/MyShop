@@ -1,5 +1,5 @@
 ﻿using MyShop.ViewModels.Categories;
-using MyShop.ViewModels.ProductImages;
+using MyShop.ViewModels.ProductRatings;
 using MyShop.ViewModels.Products;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,11 @@ namespace MyShop.WebApp.Models
         public ProductViewModel Product { get; set; }
 
         public List<ProductViewModel> RelatedProducts { get; set; }
+
+        public List<ProductRatingViewModel> Ratings { get; set; }
+        public string Comment { get; set; }
+        public Guid UserId { get; set; }
+        public int ProductId { get; set; }
 
         //public List<ProductImageViewModel> ProductImages { get; set; }
     }

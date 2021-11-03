@@ -15,14 +15,11 @@ using IdentityServer4.Configuration;
 using IdentityServer4.Test;
 using IdentityServer4.Models;
 using MyShop.Data.EF;
-using MyShop.Data.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using FluentValidation.AspNetCore;
 using MyShop.ViewModels.Users;
-using MyShop.WebApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using MyShop.WebApp.Services;
 
 namespace MyShop.WebApp
 {
@@ -38,13 +35,6 @@ namespace MyShop.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<MyShopDBContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("MyShopDb")));
-
-            //services.AddIdentity<AppUser, AppRole>()
-            //    .AddEntityFrameworkStores<MyShopDBContext>()
-            //    .AddDefaultTokenProviders();
-
             services.AddHttpClient();
 
             services.AddControllersWithViews()
@@ -67,7 +57,6 @@ namespace MyShop.WebApp
             services.AddTransient<IUserApiClient, UserApiClient>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,8 +74,8 @@ namespace MyShop.WebApp
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseAuthentication();
+
             app.UseRouting();
             
             
@@ -97,7 +86,8 @@ namespace MyShop.WebApp
                 endpoints.MapControllerRoute(
                     name: "Product Category",
                     pattern: "danh-muc/{id}",
-                    new { 
+                    new
+                    {
                         controller = "Product",
                         action = "Category"
                     });

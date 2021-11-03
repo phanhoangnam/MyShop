@@ -1,4 +1,5 @@
-﻿using MyShop.ViewModels.Common;
+﻿using Microsoft.AspNetCore.Http;
+using MyShop.ViewModels.Common;
 using MyShop.ViewModels.Users;
 using Newtonsoft.Json;
 using System;
@@ -10,13 +11,21 @@ using System.Threading.Tasks;
 
 namespace MyShop.WebApp.Services
 {
-    public class UserApiClient : IUserApiClient
+    public class UserApiClient : BaseApiClient, IUserApiClient
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserApiClient(IHttpClientFactory httpClientFactory)
+        public UserApiClient(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, httpContextAccessor)
         {
             _httpClientFactory = httpClientFactory;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task<UserViewModel> GetUserByUserName(string userName)
+        {
+            var data = await GetAsync<UserViewModel>($"/api/users/{userName}");
+            return data;
         }
 
         public async Task<ApiResult<string>> Login(LoginRequest request)

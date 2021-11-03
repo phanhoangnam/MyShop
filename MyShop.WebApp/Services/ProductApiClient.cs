@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using MyShop.ViewModels.Categories;
 using MyShop.ViewModels.Common;
+using MyShop.ViewModels.ProductRatings;
 using MyShop.ViewModels.Products;
 using MyShop.ViewModels.Users;
 using Newtonsoft.Json;
@@ -102,6 +103,35 @@ namespace MyShop.WebApp.Services
                 $"&pageSize={request.PageSize}" +
                 $"&keyword={request.Keyword}&categoryId={request.CategoryId}");
 
+            return data;
+        }
+
+        public async Task<bool> AddRating(int productId, Guid userId, ProductRatingCreateRequest request)
+        {
+            var sessions = _httpContextAccessor
+                .HttpContext
+                .Session
+                .GetString("Token");
+
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5000");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var requestContent = new MultipartFormDataContent();
+
+            
+
+            requestContent.Add(new StringContent(request.Comment.ToString()), "comment");
+            requestContent.Add(new StringContent(request.Rating.ToString()), "rating");
+
+            var response = await client.PostAsync($"/api/products/{productId}/{userId}/ratings", requestContent);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<List<ProductRatingViewModel>> GetRatingByProductId(int productId)
+        {
+            var data = await GetListAsync<ProductRatingViewModel>($"/api/products/{productId}/ratings");
             return data;
         }
     }

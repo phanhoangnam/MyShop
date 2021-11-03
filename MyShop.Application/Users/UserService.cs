@@ -28,6 +28,22 @@ namespace MyShop.Application.Users
             _roleManager = roleManager;
             _config = config;
         }
+
+        public async Task<UserViewModel> GetUserByUserName(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            var userVm = new UserViewModel()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Dob = user.Dob,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+            };
+            return userVm;
+        }
+
         public async Task<ApiResult<string>> Login(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
@@ -46,7 +62,8 @@ namespace MyShop.Application.Users
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.GivenName, user.FirstName),
                 new Claim(ClaimTypes.Role, string.Join(";", roles)),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName), 
+
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));

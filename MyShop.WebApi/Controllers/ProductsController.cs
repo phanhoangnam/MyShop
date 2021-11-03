@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyShop.Application.Products;
 using MyShop.ViewModels.ProductImages;
+using MyShop.ViewModels.ProductRatings;
 using MyShop.ViewModels.Products;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace MyShop.WebApi.Controllers
             _manageProductService = manageProductService;
         }
 
-        // http://localhost:port/products/paging?pageIndex=1&pageSize=10&CategoryId=
+        // http://localhost:port/products?pageIndex=1&pageSize=10&CategoryId=
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetPublicProductPagingRequest request)
         {
@@ -33,9 +34,8 @@ namespace MyShop.WebApi.Controllers
         }
 
 
-        // http://localhost:port/products/productId
+        // http://localhost:port/product/productId
         [HttpGet("{productId}")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetById(int productId)
         {
             var product = await _manageProductService.GetById(productId);
@@ -44,38 +44,6 @@ namespace MyShop.WebApi.Controllers
                 return NotFound("Cannot find product");
             }
             return Ok(product);
-        }
-
-        [HttpGet("featured/{take}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetFeaturedProducts(int take)
-        {
-            var products = await _manageProductService.GetFeaturedProducts(take);
-            return Ok(products);
-        }
-
-        [HttpGet("lower15/{take}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetProductsLower15(int take)
-        {
-            var products = await _manageProductService.GetProductsLower15(take);
-            return Ok(products);
-        }
-
-        [HttpGet("15to20/{take}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetProducts15To20(int take)
-        {
-            var products = await _manageProductService.GetProducts15To20(take);
-            return Ok(products);
-        }
-
-        [HttpGet("higher20/{take}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetProductsHigher20(int take)
-        {
-            var products = await _manageProductService.GetProductsHigher20(take);
-            return Ok(products);
         }
 
         [HttpPost]
@@ -189,6 +157,66 @@ namespace MyShop.WebApi.Controllers
                 return NotFound("Cannot find product");
             }
             return Ok(image);
+        }
+
+        [HttpGet("featured/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFeaturedProducts(int take)
+        {
+            var products = await _manageProductService.GetFeaturedProducts(take);
+            return Ok(products);
+        }
+
+        [HttpGet("lower15/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProductsLower15(int take)
+        {
+            var products = await _manageProductService.GetProductsLower15(take);
+            return Ok(products);
+        }
+
+        [HttpGet("15to20/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProducts15To20(int take)
+        {
+            var products = await _manageProductService.GetProducts15To20(take);
+            return Ok(products);
+        }
+
+        [HttpGet("higher20/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProductsHigher20(int take)
+        {
+            var products = await _manageProductService.GetProductsHigher20(take);
+            return Ok(products);
+        }
+
+        // Rating
+        [HttpPost("{productId}/{userId}/ratings")]
+        public async Task<IActionResult> AddRating(int productId, Guid userId, [FromForm] ProductRatingCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var ratingId = await _manageProductService.AddRating(productId, userId, request);
+            if (ratingId == 0)
+            {
+                return BadRequest();
+            }
+            var productRating = await _manageProductService.GetRatingByProductId(productId);
+            return CreatedAtAction(nameof(GetRatingByProductId), new { id = ratingId }, productRating);
+        }
+
+        [HttpGet("{productId}/ratings")]
+        public async Task<IActionResult> GetRatingByProductId(int productId)
+        {
+            var rating = await _manageProductService.GetRatingByProductId(productId);
+            if (rating == null)
+            {
+                return NotFound("Cannot find product rating");
+            }
+            return Ok(rating);
         }
     }
 }

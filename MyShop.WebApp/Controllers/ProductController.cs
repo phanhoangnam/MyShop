@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MyShop.ViewModels.ProductRatings;
 using MyShop.ViewModels.Products;
 using MyShop.WebApp.Models;
 using MyShop.WebApp.Services;
@@ -13,15 +15,20 @@ namespace MyShop.WebApp.Controllers
     {
         private readonly IProductApiClient _productApiClient;
         private readonly ICategoryApiClient _categoryApiClient;
+        private readonly IUserApiClient _userApiClient;
+        private int productId;
 
-        public ProductController(IProductApiClient productApiClient, ICategoryApiClient categoryApiClient)
+        public ProductController(IProductApiClient productApiClient, ICategoryApiClient categoryApiClient, IUserApiClient userApiClient)
         {
             _productApiClient = productApiClient;
             _categoryApiClient = categoryApiClient;
+            _userApiClient = userApiClient;
         }
 
         public async Task<IActionResult> Detail(int id)
         {
+            productId = id;
+            //ViewBag.Rating = new ProductRatingCreateRequest();
             ViewBag.FeaturedProduct = new HomeViewModel()
             {
                 FeaturedProducts = await _productApiClient.GetFeaturedProducts(4),
@@ -33,9 +40,21 @@ namespace MyShop.WebApp.Controllers
                 Product = product,
                 Category = await _categoryApiClient.GetById(product.CategoryId),
                 RelatedProducts = await _productApiClient.GetFeaturedProducts(4),
+                Ratings = await _productApiClient.GetRatingByProductId(id), 
             });
         }
-         
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddRating(ProductRatingCreateRequest request)
+        {
+            
+            var userId = await _userApiClient.GetUserByUserName(User.Identity.Name);
+            await _productApiClient.AddRating(request.ProductId, userId.Id, request);
+
+            return RedirectToAction("Detail", "Product", new { id = request.ProductId });
+        }
+
         public async Task<IActionResult> Category(int id, int page = 1)
         {
             ViewBag.Categories = new HomeViewModel()

@@ -1,9 +1,11 @@
-﻿@model ProductDetailViewModel
+﻿@using MyShop.ViewModels.ProductRatings;
+@model ProductDetailViewModel
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var featuredProducts = ViewBag.FeaturedProduct;
+    //var rating = new ProductRatingCreateRequest();
 }
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
 <div class="breadcrumb">
@@ -73,7 +75,7 @@
                                             <h3 class="name"><a href="#">@item.Name</a></h3>
                                             <div class="rating rateit-small"></div>
                                             <div class="product-price">
-                                                <span class="price"> @String.Format("{0:N0}", item.Price) VNĐ </span> <br/>
+                                                <span class="price"> @String.Format("{0:N0}", item.Price) VNĐ </span> <br />
                                                 <span class="price-before-discount">@String.Format("{0:N0}", item.Price * (decimal)1.25) VNĐ</span>
                                             </div>
                                             <!-- /.product-price -->
@@ -148,7 +150,7 @@
 
                                         <div class="col-sm-6 col-xs-6">
                                             <div class="price-box">
-                                                <span class="price"> @String.Format("{0:N0}", @Model.Product.Price) VNĐ </span> <br/>
+                                                <span class="price"> @String.Format("{0:N0}", @Model.Product.Price) VNĐ </span> <br />
                                                 <span class="price-before-discount">@String.Format("{0:N0}", @Model.Product.Price * (decimal)1.25) VNĐ</span>
                                             </div>
                                         </div>
@@ -217,12 +219,17 @@
                                             <h4 class="title">Đánh giá của khách hàng</h4>
 
                                             <div class="reviews">
-                                                
-                                                <div class="review">
-                                                    <div class="review-title"><span class="summary">Name</span></div>
-                                                    <div class="text">Content</div>
-                                                </div>
-                                                
+                                                @foreach (var item in Model.Ratings)
+                                                {
+                                                    <div class="review">
+                                                        <div class="review-title">
+                                                            <span><b>@item.UserName</b></span>
+                                                            <span class="summary" style="margin-left:30px;">@item.PublishedDate.ToString("dd/MM/yyyy")</span>
+                                                        </div>
+                                                        <div class="text">@item.Comment</div>
+                                                    </div>
+                                                }
+
 
                                             </div><!-- /.reviews -->
                                         </div><!-- /.product-reviews -->
@@ -248,24 +255,20 @@
 
                                             <div class="review-form">
                                                 <div class="form-container">
-                                                    <form class="cnt-form">
-
+                                                    <form class="cnt-form" asp-action="AddRating" asp-controller="Product" method="post">
+                                                        <input hidden asp-for="ProductId" value="@Model.Product.Id" />
                                                         <div class="row">
-
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
                                                                     <label for="exampleInputReview">Nội dung<span class="astk">*</span></label>
-                                                                    <textarea class="form-control txt txt-review" id="noidung" rows="5" placeholder="Sản phẩm chất lượng tốt ..."></textarea>
+                                                                    <textarea asp-for="Comment" class="form-control txt txt-review" id="noidung" rows="5" placeholder="Sản phẩm chất lượng tốt ..."></textarea>
                                                                 </div><!-- /.form-group -->
                                                             </div>
                                                         </div><!-- /.row -->
 
                                                         <div class="action text-right">
-                                                            <input class="btn btn-primary btn-upper" type="button" id="binh_luan" value="Đăng" />
+                                                            <button class="btn btn-primary btn-upper" type="submit" @*id="binh_luan"*@>Đăng</button>
                                                         </div><!-- /.row -->
-
-
-
                                                     </form><!-- /.cnt-form -->
                                                 </div><!-- /.form-container -->
                                             </div><!-- /.review-form -->
@@ -291,7 +294,7 @@
                         </div>
                         <div class="col-lg-9">
                             <div class="owl-carousel homepage-owl-carousel upsell-product custom-carousel owl-theme outer-top-xs">
-                                @foreach(var item in Model.RelatedProducts)
+                                @foreach (var item in Model.RelatedProducts)
                                 {
                                     if (item.Id != Model.Product.Id)
                                     {

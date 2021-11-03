@@ -5,6 +5,7 @@ using MyShop.Data.EF;
 using MyShop.Data.Entities;
 using MyShop.ViewModels.Common;
 using MyShop.ViewModels.ProductImages;
+using MyShop.ViewModels.ProductRatings;
 using MyShop.ViewModels.Products;
 using System;
 using System.Collections.Generic;
@@ -422,6 +423,45 @@ namespace MyShop.Application.Products
                 }).ToListAsync();
 
             return data;
+        }
+
+        public async Task<int> AddRating(int productId, Guid userId, ProductRatingCreateRequest request)
+        {
+            var productRating = new ProductRating()
+            {
+                ProductId = productId,
+                UserId = userId,
+                Comment = request.Comment,
+                Rating = request.Rating,
+                PublishedDate = DateTime.Now
+            };
+            
+            _context.ProductRatings.Add(productRating);
+            await _context.SaveChangesAsync();
+            return productRating.Id;
+        }
+
+        public async Task<List<ProductRatingViewModel>> GetRatingByProductId(int productId)
+        {
+            //var productRating = _context.ProductRatings.Where(x => x.ProductId == productId);
+
+            var query = from pr in _context.ProductRatings
+                        join u in _context.AppUsers on pr.UserId equals u.Id
+                        where pr.ProductId == productId
+                        select new { pr, u };
+
+            var productRatingViewModel = await query.Select(x => new ProductRatingViewModel()
+            {
+                Id = x.pr.Id,
+                UserId = x.pr.UserId,
+                ProductId = x.pr.ProductId,
+                Comment = x.pr.Comment,
+                Rating = x.pr.Rating,
+                PublishedDate = x.pr.PublishedDate,
+                UserName = x.u.UserName,
+                
+            }).ToListAsync();
+            return productRatingViewModel;
         }
     }
 

@@ -11,5 +11,6 @@ namespace MyShop.Application.Users
     {
         Task<ApiResult<string>> Login(LoginRequest request);
         Task<ApiResult<bool>> Register(RegisterRequest request);
+        Task<UserViewModel> GetUserByUserName(string userName);
     }
 }

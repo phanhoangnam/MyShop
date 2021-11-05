@@ -20,6 +20,7 @@ using MyShop.Application.Common;
 using MyShop.Application.Products;
 using MyShop.Application.Categories;
 using MyShop.Application.Users;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyShop.WebApi
 {
@@ -35,7 +36,13 @@ namespace MyShop.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            // Add Cors
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
 
             services.AddDbContext<MyShopDBContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("MyShopDb")));
@@ -84,6 +91,9 @@ namespace MyShop.WebApi
             });
 
             services.AddControllersWithViews();
+
+            // Add MVC
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSwaggerGen(c =>
             {
@@ -144,6 +154,9 @@ namespace MyShop.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            //app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {
